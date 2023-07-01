@@ -13,7 +13,7 @@ const createUser = async function (req, res) {
         //body validation
 
         if (!firstName || !lastName || !email || !password || !phone || !dob || !gender) {
-            return res.status(400).send({ status: false, Error: "user's all data is mandatory" })
+            return res.status(400).send({ status: false, message: "user's all data is mandatory" })
         }
 
         // // email syntax validation
@@ -24,7 +24,13 @@ const createUser = async function (req, res) {
         //email validation
         const findEmail = await userModel.findOne({ email: email })
         if (findEmail) {
-            return res.status(400).send({ status: false, Error: "Email already exist" })
+            return res.status(200).send({ status: false, message: "Email already exist. Please Login" })
+        }
+
+        // phone validation
+        const findPhone = await userModel.findOne({ phone})
+        if(findPhone){
+            return res.status(200).send({status : false, message : "Phone No already exists, User another"})
         }
 
         // //name validation
@@ -45,14 +51,14 @@ const createUser = async function (req, res) {
 
 
         let createdUser = await userModel.create(data)
-        res.status(201).send({ status: true, msg: createdUser })
+        res.status(201).send({ status: true,message : "Registration Successful", msg: createdUser })
     }
     catch (err) {
-        res.status(500).send({ status: false, Error: err.message })
+        res.status(500).send({ status: false, message: err.message })
     }
-}
+} 
 
-const login = async function (req, res) {
+ const loginUser = async function (req, res) {
     try {
         let data = req.body;
         const { email, password } = data;
@@ -61,28 +67,44 @@ const login = async function (req, res) {
         }
 
         //making email to lower case
-        const updatedEmail = email.toLowerCase()
+        // const updatedEmail = email.toLowerCase()  
 
-        let user = await userModel.findOne({ email: updatedEmail})
+        let user = await userModel.findOne({ email: email})
         if (!user) {
-            return res.status(400).send({ status: false, Error: "Email  is incorrect" })
+            return res.status(200).send({ status: false, message: "Email not Registered" })
         }
-        
+         
         let bcryptedPass = await bcrypt.compare(password, user.password);
         if(!bcryptedPass){
-            return res.status(400).send({status : false, message : "password is invalid"})
+            return res.status(200).send({status : false, message : "password is invalid"})
         }
         console.log(bcryptedPass);
 
         let token = jwt.sign({ user: user._id }, "taskManageSecretKey", {expiresIn : "10h"})
-        return res.status(200).send({ status: true, msg: token });
+        return res.status(200).send({ status: true, message : "User Logged Successfully", data: token });
     }
     catch (err) {
         res.status(500).send({ status: false, Error: err.message })
     }
 }
 
+async function emailAlreadyExists(req,res){
+try {
+    const email = req.param.email;
+    console.log(email)
 
+    const findEmail = await userModel.findOne({email : email});
+    if(!findEmail){
+        return res.status(404).send({status : false, message : "email not found"})
+    }
+    return res.status(200).send({status : true, data : findEmail});
+    
+} catch (error) {
+    res.status(500).send({ status: false, Error: err.message })
+}
+}
 
 module.exports.createUser = createUser;
-module.exports.login = login;
+module.exports.loginUser = loginUser;
+module.exports.emailAlreadyExists = emailAlreadyExists
+
