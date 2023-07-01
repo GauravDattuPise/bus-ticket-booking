@@ -3,11 +3,13 @@ import React, { useState } from "react";
 import {useNavigate} from "react-router-dom"
 import { CustomInput } from "../../customBtnAndInput/customInput/customInput";
 import axios from "axios"
-
+import { toast } from "react-hot-toast";
+import { NavLink } from "react-router-dom";
 import "../../../../node_modules/bootstrap/dist/css/bootstrap.css";
 import "./signUp.css"
 
 import { isValidEmail, isValidName, isValidPhone, isValidPassword } from "../validations/validation";
+import { Home } from "../home/home";
 
 export function SignUp() {
 
@@ -36,7 +38,7 @@ export function SignUp() {
 
     const [dob, setDob] = useState("")
 
-    function handleSubmit(e){
+   async function handleSubmit(e){
         e.preventDefault();
 
         if(!isValidName(firstName)){
@@ -70,10 +72,22 @@ export function SignUp() {
         const signUpData = {firstName,lastName,email,password,phone,gender,dob}
 
         console.log({...signUpData})
-   
-        axios.post("http://localhost:3001/createUser",signUpData)
-        .then(()=>{console.log("data sent to backend successfully")})
-        .catch((err)=>console.log("this is error",err.message))
+
+     try {
+        const response = await axios.post("http://localhost:5000/createUser",signUpData)
+        
+           if(response.data.status){
+            toast.success(response.data.message)
+           }
+           else{
+            toast.error(response.data.message)
+           }
+        
+        // else{
+        //     console.log("this is error");
+        //     toast.error(response.data.message)
+        // }
+        // toast.success(response.data.message)
 
         setFirstName("");
         setLastName("");
@@ -81,18 +95,26 @@ export function SignUp() {
         setPassword("");
         setConfirmPassword("");
         setPhone("");
-        setGender("");
+        setGender(""); 
         setDob("")
 
-       alert("registration successFull, now you can login")
-        navigate("/Login")
+    //    setTimeout(()=>{
+        navigate("/login")
+    //    },2000)
+
+
+     } catch (error) {
+        toast.error("Error In Registration !")
+        console.log("error is occured", error.message)
+     }
+      
     }
 
     return (
-
-        <div className="container">
-            <h2>Sign Up</h2>
-            <form onSubmit={handleSubmit}>
+      <div id="banner">
+        <div className="container" >
+            <form onSubmit={handleSubmit} className="form-ctrl">
+            <h2>Register User</h2>
                
                 <CustomInput
                     placeholder="Enter Firstname"
@@ -194,8 +216,11 @@ export function SignUp() {
                          onChange={(e)=>setDob(e.target.value)}
                          required
                     />
-                    <button type="submit" className="btn btn-primary mt-3">Register</button>
+                    <button type="submit" className="mt-4">register</button>
+
+                    <NavLink to="/login" className="mt-3">Already registerd! Login here</NavLink>
             </form>
+        </div>
         </div>
     )
 }

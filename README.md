@@ -18,3 +18,5 @@ A bus booking application that allows registered users to search for buses, sele
 - Database: MongoDB Atlas
 - Authentication: jsonwebtoken
 - Password hashing : bcrypt
+
+## https://github.com/GauravDattuPise/bus-ticket-booking.git

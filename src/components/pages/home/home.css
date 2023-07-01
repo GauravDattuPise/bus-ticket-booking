@@ -1,0 +1,7 @@
+
+
+#banner{
+    height: 768px;
+    background-image: url("../../../../public/BusPhotoForProject.jpg");
+    background-size: cover;
+  }

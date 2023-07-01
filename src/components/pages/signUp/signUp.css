@@ -1,3 +1,10 @@
+#banner{
+  background-image: url("/public/BusPhotoForProject.jpg");
+  background-size: cover;
+ 
+}
+
+
 /* .gender-select {
     margin-top: 10px;
     border: 2px solid black;
@@ -14,19 +21,55 @@
     background-color: bisque;
   } */
 
+  /* #banner{
+    height: 768px;
+    background-image: url("../../../../public/BusPhotoForProject.jpg");
+    background-size: cover;
+  } */
 
-  .container {
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 20px;
+  /* html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #a19696
+  } */
+  
+  .form-ctrl{
+    background-color  : white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;  
+    height: 680px;
+    width: 440px;
+    top : 20px;
+    left : 700px;
+    border-radius: 30px;
+  }
+
+  .form-ctrl :hover{
+    border: none;
+    border-bottom: 3px solid black;
+  }
+
+  form CustomInput{
+    width: 40px;
+  }
+    
+  .container{
+
   }
   
-  h2 {
-    text-align: center;
+ div form h2 {
+    font-family: 'Poppins', sans-serif;
+    color: #09206e;
+    text-align : center;
+  font-weight: 30px;
   }
   
   form {
-    margin-top: 20px;
+    
   }
   
   .form-group {
@@ -38,15 +81,28 @@
   }
   
   .gender-select {
-    width: 480px;
+    width: 350px;
     height: 40px;
     margin-top: 18px;
-    border: 2px solid black;
+    border: none;
+    border-bottom: 2px solid black;
   }
-  
-  .btn-register {
-    display: block;
-    width: 100%;
+
+
+  button {
+    display: inline-block;
+    padding: 10px 20px;
+    width: 300px;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    background-color: #434543;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-transform: uppercase;
   }
   
   .centered {

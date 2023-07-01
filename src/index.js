@@ -4,20 +4,22 @@ import { BrowserRouter, Routes, Route } from "react-router-dom"
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { Toaster } from 'react-hot-toast';
 import { SignUp } from './components/pages/signUp/signUp';
 import { Login } from './components/pages/login/login';
+import { Home } from './components/pages/home/home';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
     <BrowserRouter>
+    <Toaster/>
       <Routes>
+        <Route path='/' element={<Home/>}/>
         <Route path='signUp' element={<SignUp />}     />
         <Route path='login' element={<Login />} />
       </Routes>
     </BrowserRouter>
 
-  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
